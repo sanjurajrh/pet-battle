@@ -1,0 +1,45 @@
+<div class="container">
+  <div class="row mt-5 mb-3">
+    <div class="col-sm-4">
+      <div class="card text-center">
+        <img class="card-img-top" [src]="first" alt="Current Top Cat 👑" />
+        <div class="card-body">
+          <h3 class="card-title">🥇</h3>
+          <p class="card-text">👑 Current TopCat 🐾 {{ firstCount }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="card text-center">
+        <img class="card-img-top" [src]="second" alt="🏵️ Second Place Cat" />
+        <div class="card-body">
+          <h3 class="card-title">🥈</h3>
+          <p class="card-text">🏵️ Second Place Cat 🐾 {{ secondCount }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="card text-center">
+        <img class="card-img-top" [src]="third" alt="Third place cat 🏵️" />
+        <div class="card-body">
+          <h3 class="card-title">🥉</h3>
+          <p class="card-text">🏵️ Third Place Cat 🐾 {{ thirdCount }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center">
+    <button type="button" class="btn btn-light " (click)="refresh()">
+      🔄 Refresh the Leaderboard
+      <span class="spinner-grow spinner-grow-sm" role="status" [hidden]="refreshing" aria-hidden="true"></span>
+    </button>
+  </div>
+
+  <h5 class="text-center mt-3">Upvote or Downvote your favourite cat to reveal another one ...</h5>
+  <div class="row mt-5">
+    <div class="col-sm-3" *ngFor="let cat of listOfCatCards">
+      <app-catcard *ngIf="gotCats"></app-catcard>
+    </div>
+  </div>
+</div>

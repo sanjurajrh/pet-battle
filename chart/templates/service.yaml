@@ -1,0 +1,22 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "pet-battle.fullname" . }}
+  labels:
+    {{- if .Values.blue_green }}
+    blue_green: {{ .Values.blue_green | quote }}
+    {{- end }}
+    {{- include "pet-battle.labels" . | nindent 4 }}
+spec:
+  ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 8080
+      name: 8080-tcp
+  selector:
+    {{- include "pet-battle.selectorLabels" . | nindent 4 }}
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}

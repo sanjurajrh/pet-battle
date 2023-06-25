@@ -1,0 +1,78 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  labels:
+    {{- include "pet-battle.labels" . | nindent 4 }}
+  name: {{ include "pet-battle.fullname" . }}
+spec:
+  replicas: {{ .Values.replicas }}
+  revisionHistoryLimit: 10
+  selector:
+    {{- include "pet-battle.selectorLabels" . | nindent 4 }}
+  strategy:
+    activeDeadlineSeconds: 21600
+    resources: {}
+    rollingParams:
+      intervalSeconds: 1
+      maxSurge: 25%
+      maxUnavailable: 25%
+      timeoutSeconds: 600
+      updatePeriodSeconds: 1
+    type: Rolling
+  template:
+    metadata:
+      annotations:
+        rollme: {{ randAlphaNum 5 | quote }}
+      labels:
+        {{- include "pet-battle.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - image: "{{ .Values.image_repository }}/{{ .Values.image_namespace }}/{{ .Values.image_name }}:{{ .Values.image_version }}"
+        imagePullPolicy: Always
+        name: {{ include "pet-battle.name" . }}
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+          - mountPath: "/opt/app-root/src/assets/configuration/"
+            name: "{{ include "pet-battle.fullname" . }}-config"
+          {{- if .Values.fathom }}
+          - mountPath: "/opt/app-root/src/assets/analytics/"
+            name: "fathom-config"
+          {{- end }}          
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 10
+          timeoutSeconds: 1
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          timeoutSeconds: 1
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 3
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: "{{ include "pet-battle.fullname" . }}-config"
+        configMap:
+          name: "{{ include "pet-battle.fullname" . }}-environment"
+          defaultMode: 420
+      {{- if .Values.fathom }}
+      - name: "fathom-config"
+        configMap:
+          name: "fathom-client-config"
+          defaultMode: 420
+      {{- end }}    
+  test: false
+  triggers:
+  - type: ConfigChange

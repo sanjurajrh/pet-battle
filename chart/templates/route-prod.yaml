@@ -1,0 +1,27 @@
+{{- if .Values.prod_route }}
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: prod-pet-battle
+  annotations:
+    haproxy.router.openshift.io/balance: roundrobin
+  labels:
+    {{- include "pet-battle.labels" . | nindent 4 }}
+spec:
+  port:
+    targetPort: 8080-tcp
+  to:
+    kind: Service
+    name: {{ .Values.prod_route_svc_name }}
+    weight: 100
+  wildcardPolicy: None
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: edge
+status:
+  ingress:
+    - conditions:
+        - status: 'True'
+          type: Admitted
+{{ end }}

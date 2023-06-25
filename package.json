@@ -1,0 +1,115 @@
+{
+  "name": "pet-battle",
+  "version": "1.2.0",
+  "private": true,
+  "scripts": {
+    "ng": "ng",
+    "build": "npm run env -s && ng build --prod",
+    "start": "npm run env -s && ng serve --proxy-config proxy.conf.js",
+    "serve:sw": "npm run build -s && npx http-server ./dist -p 4200",
+    "lint": "ng lint && stylelint \"src/**/*.scss\" --syntax scss && htmlhint \"src\" --config .htmlhintrc",
+    "lint:fix": "ng lint --fix && stylelint \"src/**/*.scss\" --syntax scss && htmlhint \"src\" --config .htmlhintrc",
+    "test": "npm run env -s && ng test",
+    "test:ci": "npm run env -s && ng test --configuration=ci --detectOpenHandles",
+    "e2e": "npm run env -s && ng e2e",
+    "translations:extract": "ngx-translate-extract --input ./src --output ./src/translations/template.json --format=json --clean --sort --marker extract",
+    "docs": "hads ./docs -o",
+    "env": "ngx-scripts env npm_package_version",
+    "prettier": "prettier --write \"./{src,e2e}/**/*.{ts,js,html,scss}\"",
+    "prettier:check": "prettier --list-different \"./{src,e2e}/**/*.{ts,js,html,scss}\"",
+    "generate": "ng generate",
+    "version": "echo $npm_package_version",
+    "package": "tar -zcvf pet-battle-$(npm run version --silent).tar.gz dist Dockerfile nginx.conf",
+    "sonar": "node sonar-project.js"
+  },
+  "dependencies": {
+    "@angular/animations": "^11.2.4",
+    "@angular/common": "^11.2.4",
+    "@angular/compiler": "^11.2.4",
+    "@angular/core": "^11.2.4",
+    "@angular/forms": "^11.2.4",
+    "@angular/localize": "^11.2.4",
+    "@angular/platform-browser": "^11.2.4",
+    "@angular/platform-browser-dynamic": "^11.2.4",
+    "@angular/router": "^11.2.4",
+    "@angular/service-worker": "^11.2.4",
+    "@fortawesome/fontawesome-free": "^5.15.2",
+    "@ng-bootstrap/ng-bootstrap": "^9.0.2",
+    "@ngx-translate/core": "^13.0.0",
+    "angulartics2": "^10.0.0",
+    "bootstrap": "^4.5.3",
+    "build": "^0.1.4",
+    "keycloak-angular": "^8.1.0",
+    "keycloak-js": "^12.0.4",
+    "ngx-matomo-v9": "^0.3.0",
+    "run": "^1.4.0",
+    "rxjs": "^6.6.6",
+    "tslib": "^2.0.0",
+    "zone.js": "~0.11.3"
+  },
+  "devDependencies": {
+    "@angular-builders/jest": "^11.1.0",
+    "@angular-devkit/build-angular": "~0.1102.3",
+    "@angular/cli": "~11.2.3",
+    "@angular/compiler-cli": "^11.2.4",
+    "@angular/language-service": "^11.2.4",
+    "@angularclass/hmr": "^2.1.3",
+    "@biesbjerg/ngx-translate-extract": "^2.3.4",
+    "@ngx-rocket/scripts": "^4.0.0",
+    "@types/jasmine": "~3.6.0",
+    "@types/jasminewd2": "^2.0.3",
+    "@types/jest": "^26.0.20",
+    "@types/node": "^12.11.1",
+    "codelyzer": "^6.0.0",
+    "hads": "^1.7.0",
+    "htmlhint": "^0.11.0",
+    "https-proxy-agent": "^2.0.0",
+    "husky": "^3.0.0",
+    "jasmine-core": "~3.6.0",
+    "jasmine-spec-reporter": "~5.0.0",
+    "jest": "^26.6.3",
+    "jest-junit": "^12.0.0",
+    "jest-preset-angular": "^8.4.0",
+    "jest-sonar-reporter": "^2.0.0",
+    "prettier": "^1.16.3",
+    "pretty-quick": "^1.10.0",
+    "sonarqube-scanner": "^2.8.1",
+    "stylelint": "~10.1.0",
+    "stylelint-config-prettier": "^5.1.0",
+    "stylelint-config-recommended-scss": "~3.3.0",
+    "stylelint-config-standard": "~18.3.0",
+    "stylelint-scss": "~3.9.0",
+    "ts-node": "^8.10.2",
+    "tslint": "~6.1.0",
+    "tslint-config-prettier": "^1.14.0",
+    "typescript": "~4.1.5"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "overrides": [
+      {
+        "files": "*.scss",
+        "options": {
+          "singleQuote": false
+        }
+      }
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "testResultsProcessor": "jest-sonar-reporter"
+  },
+  "jestSonar": {
+    "reportPath": "coverage",
+    "reportFile": "test-reporter.xml",
+    "indent": 4
+  }
+}

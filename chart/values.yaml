@@ -1,0 +1,43 @@
+app_name: pet-battle
+replicas: 1
+# build info not used atm
+build:
+  enabled: false
+  build_tag: latest
+  source_docker_file_path: Dockerfile
+  # source_context_dir: "/"
+  # source_ref: master
+  # source_repo: https://github.com/springdo/pet-battle.git
+# Docker deets
+image_repository: quay.io
+image_name: pet-battle
+image_namespace: petbattle
+# likely over written by the Argo definition
+image_version: latest
+a_b_deploy:
+  a_weight: 100
+  b_weight: 0
+  # svc_name:
+fathom: false
+# OCP route
+route: true
+
+prometheusrules: {}
+
+blue_green: false
+prod_route: false
+prod_route_svc_name: blue-pet-battle
+
+# custom end point injected by config map. This is likely to changed
+config_map: '{
+  "catsUrl": "https://pet-battle-api-labs-test.apps.hivec.sandbox1405.opentlc.com",
+  "tournamentsUrl": "https://pet-battle-tournament-labs-test.apps.hivec.sandbox1405.opentlc.com",
+  "matomoUrl": "https://matomo-labs-ci-cd.apps.hivec.sandbox1405.opentlc.com/",
+  "keycloak": {
+    "url": "https://keycloak-labs-test.apps.hivec.sandbox1405.opentlc.com/auth/",
+    "realm": "pbrealm",
+    "clientId": "pbclient",
+    "redirectUri": "http://localhost:4200/tournament",
+    "enableLogging": true
+  }
+}'

@@ -1,0 +1,46 @@
+<header>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <!-- PB - Purple -->
+    <!--  <nav class="navbar  navbar-expand-lg navbar-dark" style="background-color: #563D7C;"> -->
+    <!-- Red #E00201-->
+    <!-- <nav class="navbar  navbar-expand-lg navbar-dark" style="background-color: #E00201;"> -->
+    <!-- Green #009B00 -->
+    <!-- <nav class="navbar  navbar-expand-lg navbar-dark" style="background-color: #009B00;"> -->
+    <a class="navbar-brand" href="/home">Pet Battle {{ appVersion }}</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      aria-controls="navbar-menu"
+      aria-label="Toggle navigation"
+      (click)="toggleMenu()"
+      [attr.aria-expanded]="!menuHidden"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div id="navbar-menu" class="collapse navbar-collapse float-xs-none" [ngbCollapse]="menuHidden">
+      <div class="navbar-nav">
+        <a class="nav-item nav-link text-uppercase" routerLink="/home" routerLinkActive="active">
+          <i class="fas fa-home"></i>
+          <span translate> Home</span>
+        </a>
+        <a class="nav-item nav-link text-uppercase" routerLink="/about" routerLinkActive="active">
+          <i class="fas fa-question-circle"></i>
+          <span translate> Random Cat</span>
+        </a>
+        <a class="nav-item nav-link text-uppercase" routerLink="/winner" routerLinkActive="active">
+          <i class="fas fa-crown"></i>
+          <span translate> Cat of the Week</span>
+        </a>
+        <a class="nav-item nav-link text-uppercase" routerLink="/tournament" routerLinkActive="active">
+          <i class="fas fa-gamepad "></i>
+          <span translate> Tournament</span>
+        </a>
+        <a class="nav-item nav-link text-uppercase" (click)="logout()">
+          <i class="fas fa-sign-out-alt "></i>
+          <span translate> {{ buttonText }}</span>
+        </a>
+      </div>
+      <div class="navbar-nav ml-auto "></div>
+    </div>
+  </nav>
+</header>
